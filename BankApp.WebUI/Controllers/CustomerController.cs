@@ -29,7 +29,11 @@ namespace BankApp.WebUI.Controllers
         {
             return PartialView("_CustomerDetails", await _mediator.Send(new CustomerDetailsQuery() { Id = id}));
         }
-
+        public async Task<IActionResult> Customers(int id)
+        {
+            ViewData["Layout"] = "true";
+            return View("_CustomerDetails", await _mediator.Send(new CustomerDetailsQuery() { Id = id }));
+        }
         public IActionResult SearchCustomers()
         {
             return View();

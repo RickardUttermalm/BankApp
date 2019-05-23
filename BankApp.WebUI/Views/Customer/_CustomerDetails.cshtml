@@ -1,5 +1,11 @@
 ﻿@model BankApp.Application.CustomerDetails.CustomerDetailsViewModel
 
+@if(ViewData["Layout"]=="true")
+{
+    Layout = "_Layout";
+}
+
+
 @if (Model != null)
 {
     <p>@Model.Customer.Givenname @Model.Customer.Surname</p>

@@ -10,7 +10,7 @@
             @item.DateOfBirth
         </td>
         <td>
-            @item.Name
+            <a asp-controller="Customer" asp-action="Customers" asp-route-id="@item.CustomerId">@item.Name</a>
         </td>
         <td>
             @item.Address
