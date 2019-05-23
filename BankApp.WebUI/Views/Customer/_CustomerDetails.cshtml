@@ -1,0 +1,56 @@
+﻿@model BankApp.Application.CustomerDetails.CustomerDetailsViewModel
+
+@if (Model != null)
+{
+    <p>@Model.Customer.Givenname @Model.Customer.Surname</p>
+    <p>KundID: @Model.Customer.CustomerId</p>
+    <p>@Model.Customer.Birthday</p>
+    <p>@Model.Customer.City</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    KontoId
+                </th>
+                <th>
+                    KontoTyp
+                </th>
+                <th>
+                    Saldo
+                </th>
+                <th>
+                    Skapat
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Customer.Accounts)
+            {
+                <tr>
+                    <td>
+                        @item.AccountId
+                    </td>
+                    <td>
+                        @item.Type
+                    </td>
+                    <td>
+                        @item.Balance
+                    </td>
+                    <td>
+                        @item.Created
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Totalt saldo: @Model.TotalBalance</p>
+}
+else
+{
+    <div>
+        <p>Inga sökresultat hittades</p>
+    </div>
+}
+

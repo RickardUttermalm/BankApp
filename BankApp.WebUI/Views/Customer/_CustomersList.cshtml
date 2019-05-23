@@ -1,0 +1,25 @@
+﻿@model BankApp.Application.Customers.Queries.CustomersListViewModel
+
+<div id="myTarget">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Kundnummer
+                </th>
+                <th>
+                    Personnummer
+                </th>
+                <th>
+                    Namn
+                </th>
+                <th>
+                    Adress
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <partial name="_CustomerListRows" model="@Model" />
+        </tbody>
+    </table>
+</div>

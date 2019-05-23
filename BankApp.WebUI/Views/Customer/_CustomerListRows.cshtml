@@ -1,0 +1,42 @@
+﻿@model BankApp.Application.Customers.Queries.CustomersListViewModel
+
+@foreach (var item in Model.Customers)
+{
+    <tr>
+        <td>
+            @item.CustomerId
+        </td>
+        <td>
+            @item.DateOfBirth
+        </td>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @item.Address
+        </td>
+    </tr>
+}
+<tr id="buttonRow_@Model.PageNumber">
+    <td colspan="3" align="center">
+        @if (Model.CanShowMore)
+        {
+            <div id="spinner" class="spinner-border" style="display: none;" role="status">
+                <span class="sr-only">Laddar...</span>
+            </div>
+            <div>
+                <form asp-controller="Customer" asp-action="ShowMore" method="post"
+                   data-ajax="true" 
+                   data-ajax-mode="replace-with"
+                   data-ajax-method="POST"
+                   data-ajax-update="#buttonRow_@Model.PageNumber"  
+                   data-ajax-loading="#spinner">
+                   <input type="hidden" asp-for="@Model.SearchCity" value="@Model.SearchCity" />
+                   <input type="hidden" asp-for="@Model.SearchName" value="@Model.SearchName" />
+                   <input type="hidden" asp-for="@Model.PageNumber" value="@Model.PageNumber" />
+                   <button class="btn" type="submit">Visa fler</button>
+                   </form>
+            </div>
+        }
+    </td>
+</tr>
