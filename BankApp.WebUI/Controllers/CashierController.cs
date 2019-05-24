@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BankApp.Application.Customers.Commands.CreateCustomer;
+using BankApp.Application.Transactions.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,11 +30,34 @@ namespace BankApp.WebUI.Controllers
                 var succes = await _mediator.Send(command);
 
                 TempData["success"] = $"kunden {command.Givenname} har skapats.";
-
+                
                 return View();
             }
 
             return View(command);
         }
+
+        public IActionResult Deposit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Deposit(CreateTransactionCommand command)
+        {
+            if (ModelState.IsValid)
+            {
+                command.Operation = "Credit in Cash";
+                command.Type = "Credit";
+                var success = _mediator.Send(command);
+            }
+
+
+            return View(command);
+        }
+        
+
+       
     }
 }

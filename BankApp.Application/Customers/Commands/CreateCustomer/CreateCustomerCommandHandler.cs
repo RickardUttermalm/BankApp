@@ -58,7 +58,7 @@ namespace BankApp.Application.Customers.Commands.CreateCustomer
                 Type = "OWNER"
             };
 
-            //await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }
