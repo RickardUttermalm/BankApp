@@ -19,6 +19,8 @@ using System.Reflection;
 using BankApp.Application.Interfaces;
 using AutoMapper;
 using BankApp.Application.Infrastructure.AutoMapper;
+using FluentValidation.AspNetCore;
+using BankApp.Application.Customers.Commands.CreateCustomer;
 
 namespace BankApp.WebUI
 {
@@ -41,7 +43,8 @@ namespace BankApp.WebUI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerCommandValidator>());
 
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
 

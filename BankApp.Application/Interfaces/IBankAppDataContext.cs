@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using BankApp.Domain.Entities;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace BankApp.Application.Interfaces
 {
@@ -15,5 +17,9 @@ namespace BankApp.Application.Interfaces
         DbSet<Loan> Loans { get; set; }
         DbSet<PermenentOrder> PermenentOrders { get; set; }
         DbSet<Transaction> Transactions { get; set; }
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+
     }
 }

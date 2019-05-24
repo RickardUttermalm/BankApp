@@ -1,0 +1,97 @@
+﻿@model BankApp.Application.Customers.Commands.CreateCustomer.CreateCustomerCommand
+
+@{
+    ViewData["Title"] = "CreateCustomer";
+}
+
+
+
+<h4>Skapa kund</h4>
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(TempData["success"])
+    </div>
+}
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateCustomer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Kön</label>
+                <select asp-for="Gender" class="form-control">
+                    <option value="Male">Man</option>
+                    <option value="Female">Kvinna</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Givenname" class="control-label">Förnamn</label>
+                <input asp-for="Givenname" class="form-control" />
+                <span asp-validation-for="Givenname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label">Efternamn</label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Streetaddress" class="control-label">Adress</label>
+                <input asp-for="Streetaddress" class="form-control" />
+                <span asp-validation-for="Streetaddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label">Stad</label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Zipcode" class="control-label">Postkod</label>
+                <input asp-for="Zipcode" class="form-control" />
+                <span asp-validation-for="Zipcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label">Land</label>
+                <select asp-for="Country" class="form-control">
+                    <option value="Sweden">Sverige</option>
+                    <option value="Norway">Norge</option>
+                    <option value="Finland">Finland</option>
+                    <option value="Denmark">Danmark</option>
+                </select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Birthday" class="control-label">Födelsedatum</label>
+                <input asp-for="Birthday" class="form-control" />
+                <span asp-validation-for="Birthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NationalId" class="control-label">personnummer (Ex. 910023-1111)</label>
+                <input asp-for="NationalId" class="form-control" />
+                <span asp-validation-for="NationalId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telephonecountrycode" class="control-label">Landsnummer</label>
+                <input asp-for="Telephonecountrycode" class="form-control" />
+                <span asp-validation-for="Telephonecountrycode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telephonenumber" class="control-label">Telefonnummer</label>
+                <input asp-for="Telephonenumber" class="form-control" />
+                <span asp-validation-for="Telephonenumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emailaddress" class="control-label">Email</label>
+                <input asp-for="Emailaddress" class="form-control" />
+                <span asp-validation-for="Emailaddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Create" class="btn btn-primary">Skapa</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
