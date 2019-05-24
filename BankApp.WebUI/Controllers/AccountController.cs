@@ -17,6 +17,11 @@ namespace BankApp.WebUI.Controllers
         }
         public async Task<IActionResult> TransactionHistory(int id, int pagenr)
         {
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            if (isAjax)
+            {
+                return PartialView("_TransactionRows", await _mediator.Send(new GetTransactionHistoryQuery() { Id = id, Pagenr = pagenr }));
+            }
             return View(await _mediator.Send(new GetTransactionHistoryQuery() {Id = id, Pagenr = pagenr}));
         }
     }

@@ -23,9 +23,9 @@ namespace BankApp.Application.Transactions.Queries
             var account = _context.Accounts.Include(a => a.Transactions).Single(a => a.AccountId == request.Id);
             account.Transactions = account.Transactions.OrderByDescending(t => t.Date).ToList();
 
-            bool ismore = account.Transactions.Count * request.Pagenr > 20 ? true : false;
+            bool ismore = account.Transactions.Count > request.Pagenr * 20 ? true : false;
 
-            account.Transactions = account.Transactions.Take(20).Skip(20 * (request.Pagenr -1)).ToList();
+            account.Transactions = account.Transactions.Skip(20 * (request.Pagenr -1)).Take(20).ToList();
 
             return new TransactionHistoryViewModel(account, ismore, request.Pagenr);
         }
