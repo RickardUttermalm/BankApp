@@ -19,12 +19,20 @@ namespace BankApp.Application.Transactions.Commands
         }
         public async Task<Unit> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
         {
-            var balance = _context.Accounts.Single(a => a.AccountId == request.AccountId).Balance + request.Amount;
-
+            decimal balance;
+            if(request.Type == "Credit")
+            {
+                balance = _context.Accounts.Single(a => a.AccountId == request.AccountId).Balance + request.Amount;
+            }
+            else
+            {
+                balance = _context.Accounts.Single(a => a.AccountId == request.AccountId).Balance - request.Amount;
+            }
+            
             var transaction = new Transaction()
             {
                 AccountId = request.AccountId,
-                Amount = request.Amount,
+                Amount = -request.Amount,
                 Date = DateTime.Now,
                 Operation = request.Operation,
                 Symbol = request.Symbol,
@@ -32,8 +40,8 @@ namespace BankApp.Application.Transactions.Commands
                 Balance = balance
             };
 
-            await _context.Transactions.AddAsync(transaction);
             _context.Accounts.Single(a => a.AccountId == request.AccountId).Balance = balance;
+            await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

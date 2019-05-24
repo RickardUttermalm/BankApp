@@ -50,14 +50,31 @@ namespace BankApp.WebUI.Controllers
             {
                 command.Operation = "Credit in Cash";
                 command.Type = "Credit";
-                var success = _mediator.Send(command);
+                var success = await _mediator.Send(command);
             }
 
 
             return View(command);
         }
         
+        public IActionResult Withdraw()
+        {
+            return View();
+        }
 
-       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Withdraw(CreateTransactionCommand command)
+        {
+            if (ModelState.IsValid)
+            {
+                command.Operation = "Withdrawal in Cash";
+                command.Type = "Debit";
+                var success = await _mediator.Send(command);
+            }
+
+
+            return View(command);
+        }
     }
 }
