@@ -8,5 +8,7 @@ namespace BankApp.Application.Transactions.Queries
     public class GetTransactionHistoryQuery : IRequest<TransactionHistoryViewModel>
     {
         public int Id { get; set; }
+        public int Pagenr { get; set; }
+        
     }
 }

@@ -1,0 +1,38 @@
+﻿@model BankApp.Application.Transactions.Queries.TransactionHistoryViewModel
+@{
+    ViewData["Title"] = "TransaktionsHistorik";
+}
+
+<p>Kontonummer: @Model.AccountId</p>
+<p>Saldo: @Model.Balance.ToString("C")</p>
+
+<p>Transaktionshistorik</p>
+<div id="myTarget">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Datum
+                </th>
+                <th>
+                    Trasaktion
+                </th>
+                <th>
+                    Kategori
+                </th>
+                <th>
+                    Belopp
+                </th>
+                <th>
+                    Saldo
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <partial name="_TransactionRows" model="@Model" />
+        </tbody>
+    </table>
+
+
+</div>
+

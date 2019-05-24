@@ -1,0 +1,48 @@
+﻿@model BankApp.Application.Transactions.Queries.TransactionHistoryViewModel
+
+@foreach (var transaction in Model.Transactions)
+{
+    <tr>
+        <td>
+            @transaction.Date
+        </td>
+        <td>
+            @transaction.Symbol
+        </td>
+        <td>
+            @transaction.Operation
+        </td>
+        @if (transaction.Type == "Credit")
+        {
+            <td>
+                @transaction.Amount.ToString("C");
+            </td>
+        }
+        else
+        {
+            <td>
+                @transaction.Amount.ToString("C");
+            </td>
+        }
+        <td>
+            @transaction.Balance
+        </td>
+    </tr>
+}
+<tr id="buttonRow">
+    <td colspan="3" align="center">
+        @if (Model.IsMorePages)
+        {
+            <div id="spinner" class="spinner-border" style="display: none;" role="status">
+                <span class="sr-only">Laddar...</span>
+            </div>
+            <div>
+                <a data-ajax="true" data-ajax-mode="REPLACE-WITH" data-ajax-update="#buttonRow" class="btn btn-primary" 
+                   asp-route-page="@(Model.PageNumber+1)"
+                   data-ajax-loading="#spinner"
+                   role="button">Visa flera</a>
+            </div>
+        }
+    </td>
+</tr>
+

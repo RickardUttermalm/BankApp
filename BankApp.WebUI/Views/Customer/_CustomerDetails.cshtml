@@ -35,7 +35,8 @@
             {
                 <tr>
                     <td>
-                        @item.AccountId
+                        <a asp-action="TransactionHistory" asp-controller="Account" asp-route-id="@item.AccountId"
+                           asp-route-pagenr="1">@item.AccountId</a>
                     </td>
                     <td>
                         @item.Type
