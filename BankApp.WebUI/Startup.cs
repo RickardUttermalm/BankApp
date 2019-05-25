@@ -21,6 +21,7 @@ using AutoMapper;
 using BankApp.Application.Infrastructure.AutoMapper;
 using FluentValidation.AspNetCore;
 using BankApp.Application.Customers.Commands.CreateCustomer;
+using System.Security.Claims;
 
 namespace BankApp.WebUI
 {
@@ -72,6 +73,12 @@ namespace BankApp.WebUI
                 options.User.RequireUniqueEmail = true;
 
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Adminonly", policy => policy.RequireClaim("Admin"));
+                options.AddPolicy("Cashieronly", policy => policy.RequireClaim("Cashier"));
+                options.AddPolicy("Regularonly", policy => policy.RequireClaim("Regular"));
+            });
 
         }
 
@@ -101,36 +108,13 @@ namespace BankApp.WebUI
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //CreateUserRoles(services).Wait();
+            CreateUserRoles(services).Wait();
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            //var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-            IdentityResult roleResult;
-            IdentityResult roleResult2;
-            IdentityResult roleResult3;
-            //Adding Admin Role
-            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
-            if (!roleCheck)
-            {
-                //create the roles and seed them to the database
-                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
-            }
-            var roleCheck2 = await RoleManager.RoleExistsAsync("Cashier");
-            if (!roleCheck2)
-            {
-                //create the roles and seed them to the database
-                roleResult2 = await RoleManager.CreateAsync(new IdentityRole("Cashier"));
-            }
-            var roleCheck3 = await RoleManager.RoleExistsAsync("Regular");
-            if (!roleCheck3)
-            {
-                //create the roles and seed them to the database
-                roleResult3 = await RoleManager.CreateAsync(new IdentityRole("Regular"));
-            }
 
             if (await UserManager.FindByNameAsync("Admin") == null)
             {
@@ -144,7 +128,7 @@ namespace BankApp.WebUI
 
                 if (result.Succeeded)
                 {
-                    var resultRole = await UserManager.AddToRoleAsync(userIdentity, "Admin");
+                    var resultRole = await UserManager.AddClaimAsync(userIdentity, new Claim("Admin", "true"));
                 }
 
             }

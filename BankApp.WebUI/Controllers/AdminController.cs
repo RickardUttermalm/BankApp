@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BankApp.Application.Interfaces;
 using BankApp.Persistence;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.WebUI.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Adminonly")]
     public class AdminController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
@@ -57,9 +58,22 @@ namespace BankApp.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ManageRoles(RoleManagerBindingModel model)
+        public async Task<IActionResult> ManageRoles(RoleManagerBindingModel model)
         {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    if (model.Regular) await _userManager.AddClaimAsync(user, new Claim("Regular", "true"));
+                    if (model.Cashier) await _userManager.AddClaimAsync(user, new Claim("Cashier", "true"));
+                    if (model.Admin) await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
 
+                    TempData["Status"] = $"{model.Email}s roller är uppdaterade.";
+                    return View();
+                }
+            }
+            TempData["Status"] = $"Hittade ingen användare med email: {model.Email}";
             return View();
         }
     }

@@ -11,6 +11,8 @@ namespace BankApp.WebUI.Models
         [Required]
         public string Email { get; set; }
 
-        public List<string> Roles { get; set; }
+        public bool Regular { get; set; }
+        public bool Cashier { get; set; }
+        public bool Admin { get; set; }
     }
 }

@@ -7,6 +7,12 @@
 
 <h4>Hantera roller</h4>
 <hr />
+@if (TempData["Status"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(TempData["Status"])
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ManageRoles">
@@ -17,18 +23,14 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Vanlig<input type="checkbox" name="role" value="Regular" asp-for="Roles" /></label>
-                <label>Cashier<input type="checkbox" name="role" value="Cashier" asp-for="Roles" /></label>
-                <label>Admin<input type="checkbox" name="role" value="Admin" asp-for="Roles" /></label>
+                <label><input type="checkbox" name="Regular" asp-for="Regular" />Vanlig </label>
+                <label><input type="checkbox" name="Cashier" asp-for="Cashier" />Cashier </label>
+                <label><input type="checkbox" name="Admin" asp-for="Admin" />Admin </label>
             </div>
             <div class="form-group">
-                <button type="submit" value="Save" class="btn btn-primary" >Spara</button>
+                <button type="submit" value="Save" class="btn btn-primary">Spara</button>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
