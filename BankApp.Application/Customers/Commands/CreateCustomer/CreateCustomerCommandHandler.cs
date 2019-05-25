@@ -1,4 +1,5 @@
-﻿using BankApp.Application.Interfaces;
+﻿using BankApp.Application.Infrastructure.OperationResults;
+using BankApp.Application.Interfaces;
 using BankApp.Domain.Entities;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BankApp.Application.Customers.Commands.CreateCustomer
 {
-    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand>
+    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
     {
         private  IBankAppDataContext _context;
         public CreateCustomerCommandHandler(IBankAppDataContext context)
@@ -17,7 +18,7 @@ namespace BankApp.Application.Customers.Commands.CreateCustomer
             _context = context;
         }
 
-        public async Task<Unit> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<CreateCustomerResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             string coutrycode;
             if (request.Country == "Sweden") coutrycode = "SE";
@@ -60,7 +61,7 @@ namespace BankApp.Application.Customers.Commands.CreateCustomer
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return new CreateCustomerResult() {Success = true, CustomerId = customer.CustomerId, AccountId = account.AccountId };
         }
     }
 }

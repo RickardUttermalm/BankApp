@@ -1,4 +1,4 @@
-﻿using BankApp.Application.Infrastructure.TransactionResult;
+﻿using BankApp.Application.Infrastructure.OperationResults;
 using MediatR;
 using System;
 using System.Collections.Generic;

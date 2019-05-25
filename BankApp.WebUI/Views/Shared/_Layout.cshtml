@@ -51,6 +51,16 @@
                                 <li class="nav-item"><a class="nav-link text-dark" asp-controller="Cashier" asp-action="Transfer">Överföring</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle nav-link text-dark" data-toggle="dropdown">
+                                Admin
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="CreateUser">Skapa konto</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="ManageRoles">Sätt roller</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>

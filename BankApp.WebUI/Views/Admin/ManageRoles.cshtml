@@ -1,0 +1,34 @@
+﻿@model BankApp.WebUI.Models.RoleManagerBindingModel
+
+@{
+    ViewData["Title"] = "Byt roller";
+}
+
+
+<h4>Hantera roller</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ManageRoles">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Vanlig<input type="checkbox" name="role" value="Regular" asp-for="Roles" /></label>
+                <label>Cashier<input type="checkbox" name="role" value="Cashier" asp-for="Roles" /></label>
+                <label>Admin<input type="checkbox" name="role" value="Admin" asp-for="Roles" /></label>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Save" class="btn btn-primary" >Spara</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

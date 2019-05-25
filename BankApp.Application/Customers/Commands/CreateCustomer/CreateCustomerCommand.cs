@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using BankApp.Application.Infrastructure.OperationResults;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BankApp.Application.Customers.Commands.CreateCustomer
 {
-    public class CreateCustomerCommand : IRequest
+    public class CreateCustomerCommand : IRequest<CreateCustomerResult>
     {
         public string Gender { get; set; }
         public string Givenname { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BankApp.Application.Infrastructure.TransactionResult;
+using BankApp.Application.Infrastructure.OperationResults;
 using MediatR;
 
 namespace BankApp.Application.Transactions.Commands.CreateTransfer

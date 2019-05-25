@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using BankApp.Application.Infrastructure.TransactionResult;
+using BankApp.Application.Infrastructure.OperationResults;
 using BankApp.Application.Interfaces;
 using BankApp.Domain.Entities;
 using MediatR;

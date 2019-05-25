@@ -7,7 +7,7 @@ using MediatR;
 using BankApp.Application.Interfaces;
 using BankApp.Domain.Entities;
 using System.Linq;
-using BankApp.Application.Infrastructure.TransactionResult;
+using BankApp.Application.Infrastructure.OperationResults;
 
 namespace BankApp.Application.Transactions.Commands
 {

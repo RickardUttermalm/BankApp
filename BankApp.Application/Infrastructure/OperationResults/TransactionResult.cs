@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BankApp.Application.Infrastructure.TransactionResult
+namespace BankApp.Application.Infrastructure.OperationResults
 {
     public class TransactionResult
     {

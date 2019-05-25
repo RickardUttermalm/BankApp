@@ -59,12 +59,24 @@ namespace BankApp.WebUI
             //services.AddMediatR(typeof(GetBankInfoQueryHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(GetBankInfoQuery).GetTypeInfo().Assembly);
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
 
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+
+            });
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -88,6 +100,54 @@ namespace BankApp.WebUI
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //CreateUserRoles(services).Wait();
+        }
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            IdentityResult roleResult;
+            IdentityResult roleResult2;
+            IdentityResult roleResult3;
+            //Adding Admin Role
+            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
+            if (!roleCheck)
+            {
+                //create the roles and seed them to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            var roleCheck2 = await RoleManager.RoleExistsAsync("Cashier");
+            if (!roleCheck2)
+            {
+                //create the roles and seed them to the database
+                roleResult2 = await RoleManager.CreateAsync(new IdentityRole("Cashier"));
+            }
+            var roleCheck3 = await RoleManager.RoleExistsAsync("Regular");
+            if (!roleCheck3)
+            {
+                //create the roles and seed them to the database
+                roleResult3 = await RoleManager.CreateAsync(new IdentityRole("Regular"));
+            }
+
+            if (await UserManager.FindByNameAsync("Admin") == null)
+            {
+                var userIdentity = new ApplicationUser
+                {
+                    UserName = "Admin",
+                    Email = "Admin@admin.com"
+                };
+
+                var result = await UserManager.CreateAsync(userIdentity, "Admin123");
+
+                if (result.Succeeded)
+                {
+                    var resultRole = await UserManager.AddToRoleAsync(userIdentity, "Admin");
+                }
+
+            }
         }
     }
 }

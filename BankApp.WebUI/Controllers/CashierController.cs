@@ -28,11 +28,14 @@ namespace BankApp.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var succes = await _mediator.Send(command);
+                var Result = await _mediator.Send(command);
 
-                TempData["success"] = $"kunden {command.Givenname} har skapats.";
-                
-                return View();
+                if (Result.Success)
+                {
+                    TempData["success"] = $"kunden {command.Givenname} har skapats med kundId {Result.CustomerId}. " +
+                                          $"Konto med kontonummer {Result.AccountId} har skapats med {command.Givenname} som ägare.s";
+                    return View();
+                }
             }
 
             return View(command);
