@@ -12,6 +12,7 @@ namespace BankApp.Application.Transactions.Commands
             RuleFor(x => x.AccountId).NotEmpty();
             RuleFor(x => x.Amount).NotEmpty();
             
+            
         }
     }
 }

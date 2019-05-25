@@ -50,10 +50,16 @@ namespace BankApp.WebUI.Controllers
             {
                 command.Operation = "Credit in Cash";
                 command.Type = "Credit";
-                var success = await _mediator.Send(command);
+                var result = await _mediator.Send(command);
+
+                if (result.Success)
+                {
+                    return View("TransactionSucces");
+                }
+
+                TempData["Error"] = result.Message;
+                return View(command);
             }
-
-
             return View(command);
         }
         
@@ -70,11 +76,25 @@ namespace BankApp.WebUI.Controllers
             {
                 command.Operation = "Withdrawal in Cash";
                 command.Type = "Debit";
-                var success = await _mediator.Send(command);
+                var result = await _mediator.Send(command);
+                if (result.Success)
+                {
+                    return View("TransactionSucces");
+                }
+                TempData["Error"] = result.Message;
+                return View(command);
             }
-
-
             return View(command);
+        }
+
+        public IActionResult Transfer()
+        {
+            return View();
+        }
+
+        public IActionResult TransactionSucces()
+        {
+            return View();
         }
     }
 }

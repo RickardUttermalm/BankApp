@@ -21,7 +21,8 @@ namespace BankApp.Application.Transactions.Queries
         public async Task<TransactionHistoryViewModel> Handle(GetTransactionHistoryQuery request, CancellationToken cancellationToken)
         {
             var account = _context.Accounts.Include(a => a.Transactions).Single(a => a.AccountId == request.Id);
-            account.Transactions = account.Transactions.OrderByDescending(t => t.Date).ToList();
+            account.Transactions = account.Transactions.OrderByDescending(t => t.Date)
+                .ThenByDescending(t => t.TransactionId).ToList();
 
             bool ismore = account.Transactions.Count > request.Pagenr * 20 ? true : false;
 

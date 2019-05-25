@@ -1,11 +1,17 @@
 ﻿@model BankApp.Application.Transactions.Commands.CreateTransactionCommand
 
 @{
-    ViewData["Title"] = "Deposit";
+    ViewData["Title"] = "Insättningar";
 }
 
 <h4>Insättningar</h4>
 <hr />
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(TempData["Error"])
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Deposit">

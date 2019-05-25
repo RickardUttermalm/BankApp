@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using BankApp.Application.Infrastructure.TransactionResult;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BankApp.Application.Transactions.Commands
 {
-    public class CreateTransactionCommand : IRequest
+    public class CreateTransactionCommand : IRequest<TransactionResult>
     {
         public int AccountId { get; set; }
         public decimal Amount { get; set; }
