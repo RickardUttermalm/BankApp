@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BankApp.Application.Customers.Commands.CreateCustomer;
 using BankApp.Application.Transactions.Commands;
+using BankApp.Application.Transactions.Commands.CreateTransfer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -90,6 +91,24 @@ namespace BankApp.WebUI.Controllers
         public IActionResult Transfer()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Transfer(CreateTransferCommand command)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _mediator.Send(command);
+
+                if (result.Success)
+                {
+                    return View("TransactionSuccess");
+                }
+                TempData["Error"] = result.Message;
+                return View(command);
+            }
+            return View(command);
         }
 
         public IActionResult TransactionSucces()

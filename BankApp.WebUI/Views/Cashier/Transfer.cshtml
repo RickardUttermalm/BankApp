@@ -1,29 +1,33 @@
 ﻿@model BankApp.Application.Transactions.Commands.CreateTransfer.CreateTransferCommand
 
 @{
-    ViewData["Title"] = "Transfer";
+    ViewData["Title"] = "Överföringar";
 }
 
-<h1>Transfer</h1>
-
-<h4>CreateTransferCommand</h4>
+<h4>Överföringar</h4>
 <hr />
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(TempData["Error"])
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Transfer">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FromAccountId" class="control-label"></label>
+                <label asp-for="FromAccountId" class="control-label">Från konto</label>
                 <input asp-for="FromAccountId" class="form-control" />
                 <span asp-validation-for="FromAccountId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ToAccountId" class="control-label"></label>
+                <label asp-for="ToAccountId" class="control-label">Till konto</label>
                 <input asp-for="ToAccountId" class="form-control" />
                 <span asp-validation-for="ToAccountId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
+                <label asp-for="Amount" class="control-label">Belopp</label>
                 <input asp-for="Amount" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
@@ -38,7 +42,7 @@
                 <span asp-validation-for="Operation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Symbol" class="control-label"></label>
+                <label asp-for="Symbol" class="control-label">Meddelande</label>
                 <input asp-for="Symbol" class="form-control" />
                 <span asp-validation-for="Symbol" class="text-danger"></span>
             </div>
@@ -48,13 +52,10 @@
                 <span asp-validation-for="Bank" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <button type="submit" value="Create" class="btn btn-primary">Spara</button>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

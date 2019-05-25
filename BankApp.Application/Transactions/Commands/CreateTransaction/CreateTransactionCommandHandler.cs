@@ -35,11 +35,11 @@ namespace BankApp.Application.Transactions.Commands
             decimal newbalance;
             if(request.Type == "Credit")
             {
-                newbalance = _context.Accounts.Single(a => a.AccountId == request.AccountId).Balance + request.Amount;
+                newbalance = account.Balance + request.Amount;
             }
             else
             {
-                newbalance = _context.Accounts.Single(a => a.AccountId == request.AccountId).Balance - request.Amount;
+                newbalance = account.Balance - request.Amount;
                 request.Amount = -request.Amount;
             }
             
