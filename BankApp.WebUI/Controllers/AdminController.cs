@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.WebUI.Controllers
 {
-    [Authorize(Policy = "Adminonly")]
+    //[Authorize(Policy = "Adminonly")]
     public class AdminController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
@@ -40,11 +40,18 @@ namespace BankApp.WebUI.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var roleresult = await _userManager.AddToRoleAsync(user, model.Role);
+                    var roleresult = await _userManager.AddClaimAsync(user, new Claim(model.Role, "true"));
                     if (roleresult.Succeeded)
                     {
-                        TempData["success"] = "Användaren har skapats";
+                        TempData["UserWasCreated"] = "Användaren har skapats";
                         return View();
+                    }
+                }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        TempData[item.Code] = item.Code;
                     }
                 }
             }
@@ -63,13 +70,15 @@ namespace BankApp.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
+                var claims = await _userManager.GetClaimsAsync(user);
+                var claimslist = claims.Select(c => c.Type).ToList();
                 if (user != null)
                 {
-                    if (model.Regular) await _userManager.AddClaimAsync(user, new Claim("Regular", "true"));
-                    if (model.Cashier) await _userManager.AddClaimAsync(user, new Claim("Cashier", "true"));
-                    if (model.Admin) await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
+                    if (model.Regular && !claimslist.Contains("Regular")) await _userManager.AddClaimAsync(user, new Claim("Regular", "true"));
+                    if (model.Cashier && !claimslist.Contains("Cashier")) await _userManager.AddClaimAsync(user, new Claim("Cashier", "true"));
+                    if (model.Admin && !claimslist.Contains("Admin")) await _userManager.AddClaimAsync(user, new Claim("Admin", "true"));
 
-                    TempData["Status"] = $"{model.Email}s roller är uppdaterade.";
+                    TempData["Status"] = $"{model.Email}:s roller är uppdaterade.";
                     return View();
                 }
             }

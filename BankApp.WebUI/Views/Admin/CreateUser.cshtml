@@ -6,10 +6,22 @@
 
 <h4>Skapa användare</h4>
 <hr />
-@if (TempData["success"] != null)
+@if (TempData["UserWasCreated"] != null)
 {
     <div class="alert alert-success" role="alert">
-        @Html.Raw(TempData["success"])
+        @Html.Raw(TempData["UserWasCreated"])
+    </div>
+}
+@if (TempData["DuplicateUserName"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <p>Email adressen är redan registrerad.</p>
+    </div>
+}
+@if (TempData["PasswordTooShort"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <p>lösenord måste vara minst 6 tecken.</p>
     </div>
 }
 <div class="row">
