@@ -29,7 +29,7 @@ namespace BankApp.Application.Customers.Queries
 
             var customerspage = customers.Skip(request.Offset * 50).Take(50).ToList();
 
-            bool ismore = count > request.Offset * 50 ? true : false;
+            bool ismore = count > (request.Offset + 1) * 50 ? true : false;
           
             return new CustomersListViewModel(customerspage, ismore, request.Offset, request.Name, request.City); 
         }

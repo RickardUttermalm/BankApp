@@ -7,7 +7,6 @@ using BankApp.Application.Interfaces;
 using MediatR;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using BankApp.Domain.Entities;
 
 namespace BankApp.Application.CustomerDetails
@@ -15,11 +14,9 @@ namespace BankApp.Application.CustomerDetails
     public class CustomerDetailsQueryHandler : IRequestHandler<CustomerDetailsQuery, CustomerDetailsViewModel>
     {
         private IBankAppDataContext _context;
-        private IMapper _mapper;
-        public CustomerDetailsQueryHandler(IBankAppDataContext context, IMapper mapper)
+        public CustomerDetailsQueryHandler(IBankAppDataContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
         public async Task<CustomerDetailsViewModel> Handle(CustomerDetailsQuery request, CancellationToken cancellationToken)
         {
