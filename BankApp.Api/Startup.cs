@@ -45,7 +45,7 @@ namespace BankApp.Api
                             ValidateAudience = true,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = Configuration["Jwt:Issuer"],
+                            ValidIssuer = Configuration["Jwt:Issuer"], //[jwtkey]
                             ValidAudience = Configuration["Jwt:Issuer"],
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                         };
