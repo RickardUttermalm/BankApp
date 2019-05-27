@@ -38,10 +38,18 @@ namespace BankApp.WebUI.Controllers
                 }
                 else
                 {
-                    TempData["Logingfail"] = "Användarnamn eller lösenord stämmer inte";
+                    TempData["Loginfail"] = "Användarnamn eller lösenord stämmer inte";
+                    return View(user);
                 }
             }
             return View(user);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signinmanager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

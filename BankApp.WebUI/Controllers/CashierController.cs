@@ -6,10 +6,12 @@ using BankApp.Application.Customers.Commands.CreateCustomer;
 using BankApp.Application.Transactions.Commands;
 using BankApp.Application.Transactions.Commands.CreateTransfer;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.WebUI.Controllers
 {
+    [Authorize(Policy = "Cashieronly")]
     public class CashierController : Controller
     {
         private readonly IMediator _mediator;

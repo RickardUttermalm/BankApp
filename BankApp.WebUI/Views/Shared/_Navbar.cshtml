@@ -21,7 +21,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="SearchCustomers">Sök</a>
                 </li>
-                @if (User.HasClaim("Admin", "true") || User.HasClaim("Cashier", "True"))
+                @if(User.HasClaim("Admin", "true") || User.HasClaim("Cashier", "true"))
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Cashier" asp-action="CreateCustomer">Skapa kund</a>
@@ -38,7 +38,7 @@
                         </ul>
                     </li>
                 }
-                @if (User.HasClaim("Admin", "True"))
+                @if(User.HasClaim("Admin", "true"))
                 {
                     <li class="dropdown nav-item">
                         <a class="dropdown-toggle nav-link text-dark" data-toggle="dropdown">
@@ -51,7 +51,8 @@
                         </ul>
                     </li>
                 }
-                @if (SignInManager.IsSignedIn(User))
+
+                @if(SignInManager.IsSignedIn(User))
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logga ut</a>

@@ -77,7 +77,6 @@ namespace BankApp.WebUI
             {
                 options.AddPolicy("Adminonly", policy => policy.RequireClaim("Admin"));
                 options.AddPolicy("Cashieronly", policy => policy.RequireClaim("Cashier"));
-                options.AddPolicy("Regularonly", policy => policy.RequireClaim("Regular"));
             });
 
         }
@@ -113,7 +112,6 @@ namespace BankApp.WebUI
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
-            //var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             if (await UserManager.FindByNameAsync("Admin") == null)

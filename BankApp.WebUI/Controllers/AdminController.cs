@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.WebUI.Controllers
 {
-    //[Authorize(Policy = "Adminonly")]
+    [Authorize(Policy = "Adminonly")]
     public class AdminController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
