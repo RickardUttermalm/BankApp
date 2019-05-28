@@ -39,6 +39,31 @@ namespace BankApp.UnitTests
         }
 
         [Theory]
+        [InlineData(100, "Credit")]
+        public async Task CreateTransactionsRight_Tests(decimal amount, string type)
+        {
+            var command = new CreateTransactionCommand() { AccountId = 1, Amount = amount, Type = type };
+            var options = new DbContextOptionsBuilder<BankAppDataContext>()
+            .UseInMemoryDatabase(databaseName: "CreateTransactionsRight_Tests")
+            .Options;
+
+            using (var context = new BankAppDataContext(options))
+            {
+                await context.AddAsync(new Account() { AccountId = 1, Balance = 1000 });
+                await context.SaveChangesAsync(CancellationToken.None);
+                var handler = new CreateTransactionCommandHandler(context);
+
+                var result = await handler.Handle(command, CancellationToken.None);
+
+                decimal expected = 1100;
+                var account = await context.Accounts.SingleOrDefaultAsync(a => a.AccountId == 1);
+                var actual = account.Balance;
+                Assert.Equal(expected, actual);
+                
+            }
+        }
+
+        [Theory]
         [InlineData(-100, 1,3 )]
         [InlineData(134145100, 1,3 )]
         [InlineData(100, 131, 0 )]
