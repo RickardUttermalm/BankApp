@@ -46,15 +46,15 @@ namespace BankApp.Api.Controllers
 
         private string GenerateJSONWebToken(UserModel userInfo)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[] {
                 new Claim("userid", userInfo.Username)
             };
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
+            var token = new JwtSecurityToken(_config["Issuer"],
+              _config["Issuer"],
               claims,
               expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials);
