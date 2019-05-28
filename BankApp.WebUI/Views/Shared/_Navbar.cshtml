@@ -21,7 +21,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="SearchCustomers">Sök</a>
                 </li>
-                @if(User.HasClaim("Admin", "true") || User.HasClaim("Cashier", "true"))
+                @if(User.HasClaim("Cashier", "true"))
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Cashier" asp-action="CreateCustomer">Skapa kund</a>

@@ -23,7 +23,8 @@ namespace BankApp.Application.Bank.Queries
             return new BankInfoViewModel()
             {
                 TotalCustomers = _context.Customers.Count(),
-                TotalBalance = _context.Accounts.Sum(a => a.Balance)
+                TotalBalance = _context.Accounts.Sum(a => a.Balance),
+                TotalAccounts = _context.Accounts.Count()
             };
             
         }
