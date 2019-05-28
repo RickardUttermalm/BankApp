@@ -21,26 +21,27 @@ namespace BankApp.Application.Bank.Commands.AddDailyInterest
 
         public async Task<bool> Handle(AddDailyInterestCommand request, CancellationToken cancellationToken)
         {
-            var Accounts = _context.Accounts.Where(a => a.AccountId < 4);
-            var TransactionList = new List<Transaction>();
-            var date = DateTime.Now;
-            foreach (var item in Accounts)
+            var account = _context.Accounts.SingleOrDefault(a => a.AccountId == request.AccountId);
+            if (account == null) return false;
+            if (request.YearlyInterest < 0) return false;
+
+            decimal dailyinterest = request.YearlyInterest / 365;
+            var days = (DateTime.Now - request.LatestInterest).TotalDays;
+            var interest = dailyinterest * (decimal)days;
+
+            var transaction = new Transaction()
             {
-                decimal interest = (item.Balance * (decimal)0.05) / 12;
-                TransactionList.Add(new Transaction() {
-                    AccountId = item.AccountId,
-                    Amount = interest,
-                    Balance = item.Balance + interest,
-                    Date = date,
-                    Operation = "Monthly interest",
-                    Type = "Credit"
-                });
-                item.Balance += interest;
-            }
+                AccountId = account.AccountId,
+                Amount = interest,
+                Balance = account.Balance + interest,
+                Date = DateTime.Now,
+                Operation = "SavingsInterest",
+                Type = "Credit"
+            };
 
-            await _context.Transactions.AddRangeAsync(TransactionList, cancellationToken);
+            account.Balance += interest;
+            await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync(cancellationToken);
-
             return true;
         }
     }

@@ -117,27 +117,6 @@ namespace BankApp.WebUI.Controllers
             return View(command);
         }
 
-        public IActionResult AddInterest()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMonthlyInterest()
-        {
-            var result = await _mediator.Send(new AddDailyInterestCommand());
-
-            if (result)
-            {
-                TempData["Interestresult"] = "Ränta har lagts på.";
-
-                return View("AddInterest");
-            }
-
-            TempData["Interestresult"] = "Något gick fel :(";
-            return View("AddInterest");
-        }
         public IActionResult TransactionSucces()
         {
             return View();
