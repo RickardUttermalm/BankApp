@@ -15,13 +15,13 @@
         @if (transaction.Type == "Credit")
         {
             <td>
-                @transaction.Amount.ToString("C");
+                @transaction.Amount.ToString("#.#0") kr;
             </td>
         }
         else
         {
             <td>
-                @transaction.Amount.ToString("C");
+                @transaction.Amount.ToString("#.#0") kr;
             </td>
         }
         <td>
