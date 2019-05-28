@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BankApp.Application.Bank.Commands.AddDailyInterest;
 using BankApp.Application.Customers.Commands.CreateCustomer;
 using BankApp.Application.Transactions.Commands;
 using BankApp.Application.Transactions.Commands.CreateTransfer;
@@ -35,7 +36,7 @@ namespace BankApp.WebUI.Controllers
                 if (Result.Success)
                 {
                     TempData["success"] = $"kunden {command.Givenname} har skapats med kundId {Result.CustomerId}. " +
-                                          $"Konto med kontonummer {Result.AccountId} har skapats med {command.Givenname} som ägare.s";
+                                          $"Konto med kontonummer {Result.AccountId} har skapats med {command.Givenname} som ägare.";
                     return View();
                 }
             }
@@ -116,6 +117,27 @@ namespace BankApp.WebUI.Controllers
             return View(command);
         }
 
+        public IActionResult AddInterest()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMonthlyInterest()
+        {
+            var result = await _mediator.Send(new AddDailyInterestCommand());
+
+            if (result)
+            {
+                TempData["Interestresult"] = "Ränta har lagts på.";
+
+                return View("AddInterest");
+            }
+
+            TempData["Interestresult"] = "Något gick fel :(";
+            return View("AddInterest");
+        }
         public IActionResult TransactionSucces()
         {
             return View();

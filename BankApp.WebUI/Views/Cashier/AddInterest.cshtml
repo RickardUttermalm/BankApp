@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Ränta";
+}
+
+<h4>Lägg på månadens ränta</h4>
+@if (TempData["Interestresult"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @Html.Raw(TempData["Interestresult"])
+    </div>
+}
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddMonthlyInterest">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <button type="submit" value="Create" class="btn btn-primary">Lägg på</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
