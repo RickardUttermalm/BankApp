@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BankApp.Application.Bank.Commands.AddDailyInterest;
+using BankApp.Application.Bank.Commands.AddInterest;
 using BankApp.Application.Customers.Commands.CreateCustomer;
 using BankApp.Application.Transactions.Commands;
 using BankApp.Application.Transactions.Commands.CreateTransfer;
