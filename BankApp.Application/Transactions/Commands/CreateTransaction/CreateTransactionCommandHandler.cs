@@ -21,7 +21,7 @@ namespace BankApp.Application.Transactions.Commands
         public async Task<TransactionResult> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
         {
             var account = _context.Accounts.SingleOrDefault(a => a.AccountId == request.AccountId);
-
+            if (request.Amount < 0) return new TransactionResult() { Success = false, Message ="Belopp måste vara posetivt" };
             if (account == null)
             {
                 return new TransactionResult() {Success = false, Message = "Felaktigt kontonummer."};
@@ -58,7 +58,7 @@ namespace BankApp.Application.Transactions.Commands
             await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return new TransactionResult() { Success = false};
+            return new TransactionResult() { Success = true};
         }
     }
 }

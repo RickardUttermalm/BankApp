@@ -13,7 +13,7 @@ namespace BankApp.Application.Bank.Commands.AddDailyInterest
     public class AddDailyInterestCommandHandler : IRequestHandler<AddDailyInterestCommand, bool>
     {
         private IBankAppDataContext _context;
-
+        
         public AddDailyInterestCommandHandler(IBankAppDataContext context)
         {
             _context = context;
