@@ -8,25 +8,27 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BankApp.Application.Bank.Commands.AddDailyInterest
+namespace BankApp.Application.Bank.Commands.AddInterest
 {
-    public class AddDailyInterestCommandHandler : IRequestHandler<AddDailyInterestCommand, bool>
+    public class AddInterestCommandHandler : IRequestHandler<AddInterestCommand, bool>
     {
         private IBankAppDataContext _context;
+        private IDateTime _datetime;
         
-        public AddDailyInterestCommandHandler(IBankAppDataContext context)
+        public AddInterestCommandHandler(IBankAppDataContext context, IDateTime datetime)
         {
             _context = context;
+            _datetime = datetime;
         }
 
-        public async Task<bool> Handle(AddDailyInterestCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AddInterestCommand request, CancellationToken cancellationToken)
         {
             var account = _context.Accounts.SingleOrDefault(a => a.AccountId == request.AccountId);
             if (account == null) return false;
             if (request.YearlyInterest < 0) return false;
 
             decimal dailyinterest = request.YearlyInterest / 365;
-            var days = (DateTime.Now - request.LatestInterest).TotalDays;
+            var days = (_datetime.Now - request.LatestInterest).TotalDays;
             var interest = dailyinterest * (decimal)days;
 
             var transaction = new Transaction()
@@ -34,7 +36,7 @@ namespace BankApp.Application.Bank.Commands.AddDailyInterest
                 AccountId = account.AccountId,
                 Amount = interest,
                 Balance = account.Balance + interest,
-                Date = DateTime.Now,
+                Date = _datetime.Now,
                 Operation = "SavingsInterest",
                 Type = "Credit"
             };
