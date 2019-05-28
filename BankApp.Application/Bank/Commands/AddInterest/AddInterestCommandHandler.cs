@@ -27,9 +27,11 @@ namespace BankApp.Application.Bank.Commands.AddInterest
             if (account == null) return false;
             if (request.YearlyInterest < 0) return false;
 
-            decimal dailyinterest = request.YearlyInterest / 365;
-            var days = (_datetime.Now - request.LatestInterest).TotalDays;
-            var interest = dailyinterest * (decimal)days;
+            //decimal dailyinterest = request.YearlyInterest / 365;
+            //var days = (_datetime.Now.Date - request.LatestInterest).TotalDays;
+            //var interest = (dailyinterest * (decimal)days) * account.Balance;
+
+            var interest = account.Balance * request.YearlyInterest;
 
             var transaction = new Transaction()
             {

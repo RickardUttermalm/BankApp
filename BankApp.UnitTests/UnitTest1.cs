@@ -2,6 +2,7 @@ using BankApp.Application.Bank.Commands.AddInterest;
 using BankApp.Application.Interfaces;
 using BankApp.Application.Transactions.Commands;
 using BankApp.Application.Transactions.Commands.CreateTransfer;
+using BankApp.Domain.Entities;
 using BankApp.Infrastructure;
 using BankApp.Persistence;
 using Microsoft.Data.Sqlite;
@@ -58,29 +59,34 @@ namespace BankApp.UnitTests
         }
 
         [Theory]
-        [InlineData(1, 0.05)]
-        public async Task AddInterest_Tests(int accountid, decimal yearlyint)
+        [InlineData(0.05, 1)]
+        public async Task AddInterest_Tests(decimal yearlyint, int accountid)
         {
-            var command = new AddInterestCommand() {AccountId = accountid,
+            var account = new Account() { AccountId = 1, Balance = 10000 };
+            var command = new AddInterestCommand() { AccountId = accountid, 
                             YearlyInterest = yearlyint, LatestInterest = DateTime.Now.AddYears(-1)};
 
             var options = new DbContextOptionsBuilder<BankAppDataContext>()
             .UseInMemoryDatabase(databaseName: "AddInterest_Tests")
             .Options;
 
+            decimal expected;
+
             using (var context = new BankAppDataContext(options))
             {
-                var machine = new MachineDateTime();
+                context.Add(new Account() { AccountId = 1, Balance = 10000 });
+                context.SaveChanges();
+                var machine = new MachineDateTime() {};
                 var handler = new AddInterestCommandHandler(context, machine);
 
-                var account = await context.Accounts.SingleOrDefaultAsync(a => a.AccountId == accountid);
-                var expected = account.Balance + (account.Balance * yearlyint);
+                expected = account.Balance + (account.Balance * yearlyint);
 
                 await handler.Handle(command, CancellationToken.None);
 
-                var newbalance = await context.Accounts.SingleOrDefaultAsync(a => a.AccountId == accountid);
+                var newbalance = await context.Accounts.SingleOrDefaultAsync(a => a.AccountId == 1);
                 Assert.Equal(expected, newbalance.Balance);
             }
+
         }
     }
 }

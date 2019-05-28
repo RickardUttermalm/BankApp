@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BankApp.Domain.Entities;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
