@@ -64,7 +64,7 @@ namespace BankApp.WebUI.Controllers
 
                 if (result.Success)
                 {
-                    return View("TransactionSucces");
+                    return View("TransactionSuccess");
                 }
 
                 TempData["Error"] = result.Message;
