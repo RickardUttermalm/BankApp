@@ -46,7 +46,7 @@ namespace BankApp.WebUI
             });
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.DefaultRequestCulture = new RequestCulture("sv-SE");
+                options.SetDefaultCulture("sv-SE");
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
