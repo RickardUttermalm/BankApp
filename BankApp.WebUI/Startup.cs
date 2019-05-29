@@ -23,6 +23,7 @@ using FluentValidation.AspNetCore;
 using BankApp.Application.Customers.Commands.CreateCustomer;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace BankApp.WebUI
 {
@@ -43,10 +44,6 @@ namespace BankApp.WebUI
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                options.SetDefaultCulture("sv-SE");
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -99,6 +96,19 @@ namespace BankApp.WebUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            var supportedCultures = new[]
+            {
+                new CultureInfo("sv-SE")
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("sv-SE"),
+                // Formatting numbers, dates, etc.
+                SupportedCultures = supportedCultures,
+                // UI strings that we have localized.
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
