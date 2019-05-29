@@ -53,7 +53,7 @@ namespace BankApp.WebUI.Controllers
         {
             return PartialView("_CustomerListRows",
                 await _mediator.Send(new GetCustomersListQuery()
-                { City = model.SearchCity, Name = model.SearchName, Offset = model.PageNumber}));
+                { City = model.SearchCity, Name = model.SearchName, Offset = model.PageNumber +1}));
         }
 
     }
