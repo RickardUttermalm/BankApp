@@ -22,6 +22,7 @@ using BankApp.Application.Infrastructure.AutoMapper;
 using FluentValidation.AspNetCore;
 using BankApp.Application.Customers.Commands.CreateCustomer;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Localization;
 
 namespace BankApp.WebUI
 {
@@ -42,6 +43,10 @@ namespace BankApp.WebUI
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("sv-SE");
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

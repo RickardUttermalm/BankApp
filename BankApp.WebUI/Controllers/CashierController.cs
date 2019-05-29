@@ -89,7 +89,7 @@ namespace BankApp.WebUI.Controllers
                 var result = await _mediator.Send(command);
                 if (result.Success)
                 {
-                    return View("TransactionSucces");
+                    return View("TransactionSuccess");
                 }
                 TempData["Error"] = result.Message;
                 return View(command);
