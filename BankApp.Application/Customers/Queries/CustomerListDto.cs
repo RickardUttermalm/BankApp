@@ -17,7 +17,11 @@ namespace BankApp.Application.Customers.Queries
             CustomerId = c.CustomerId;
             Name = c.Givenname + " " + c.Surname;
             Address = c.Streetaddress + ", " + c.Zipcode + ", " + c.City;
-            DateOfBirth = c.Birthday.Value.ToString("yyyy-MM-dd");
+            if (c.Birthday != null)
+            {
+                DateOfBirth = c.Birthday.Value.ToString("yyyy-MM-dd");
+            }
+            
         }
     }
 }

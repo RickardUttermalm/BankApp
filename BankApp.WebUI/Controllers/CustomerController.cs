@@ -55,5 +55,6 @@ namespace BankApp.WebUI.Controllers
                 await _mediator.Send(new GetCustomersListQuery()
                 { City = model.SearchCity, Name = model.SearchName, Offset = model.PageNumber}));
         }
+
     }
 }

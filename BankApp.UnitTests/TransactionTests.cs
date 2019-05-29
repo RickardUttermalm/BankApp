@@ -8,6 +8,7 @@ using BankApp.Persistence;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,7 +16,7 @@ using Xunit;
 
 namespace BankApp.UnitTests
 {
-    public class UnitTest1
+    public class TransactionTests
     {
         [Theory]
         [InlineData(-100, "Debit")]
@@ -30,6 +31,8 @@ namespace BankApp.UnitTests
 
             using (var context = new BankAppDataContext(options))
             {
+                context.Accounts.Add(new Account() { AccountId = 1, Balance = 1000 });
+
                 var handler = new CreateTransactionCommandHandler(context);
 
                 var result = await handler.Handle(command, CancellationToken.None);
@@ -57,9 +60,11 @@ namespace BankApp.UnitTests
 
                 decimal expected = 1100;
                 var account = await context.Accounts.SingleOrDefaultAsync(a => a.AccountId == 1);
+                var transactions = await context.Accounts.Include(a => a.Transactions).SingleOrDefaultAsync(a => a.AccountId == 1);
+                var count = transactions.Transactions.Count();
                 var actual = account.Balance;
                 Assert.Equal(expected, actual);
-                
+                Assert.Equal(1, count);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿@model BankApp.Application.CustomerDetails.CustomerDetailsViewModel
 
-@if(ViewData["Layout"]=="true")
+@if (ViewData["Layout"] == "true")
 {
     Layout = "_Layout";
 }
@@ -10,8 +10,20 @@
 {
     <p>@Model.Customer.Givenname @Model.Customer.Surname</p>
     <p>KundID: @Model.Customer.CustomerId</p>
-    <p>@Model.Customer.Birthday</p>
-    <p>@Model.Customer.City</p>
+    if (Model.Customer.Birthday != null)
+    {
+        <p>@Model.Customer.Birthday</p>
+    }
+    <p>@Model.Customer.Streetaddress @Model.Customer.Zipcode, @Model.Customer.City</p>
+    
+    <p>@Model.Customer.Country</p>
+    <p>@Model.Customer.Telephonecountrycode@Model.Customer.Telephonenumber</p>
+    <p>@Model.Customer.Emailaddress</p>
+
+    if (User.HasClaim("Cashier", "true"))
+    {
+        <a class="btn" asp-action="EditCustomer" asp-controller="Cashier" asp-route-id="@Model.Customer.CustomerId">Ändra kunduppgifter</a>
+    }
 
     <table class="table">
         <thead>

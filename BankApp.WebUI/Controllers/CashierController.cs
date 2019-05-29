@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BankApp.Application.Bank.Commands.AddInterest;
+using BankApp.Application.CustomerDetails;
+using BankApp.Application.CustomerDetails.Queries;
+using BankApp.Application.CustomerDetails.Queries.UpdateCustomer;
 using BankApp.Application.Customers.Commands.CreateCustomer;
 using BankApp.Application.Transactions.Commands;
 using BankApp.Application.Transactions.Commands.CreateTransfer;
@@ -121,5 +124,28 @@ namespace BankApp.WebUI.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> EditCustomer(int id)
+        {
+            var model = await _mediator.Send(new CustomerDetailsQuery() { Id = id });
+            return View(model.Customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCustomer(CustomerDetailDto customer)
+        {
+            if (ModelState.IsValid)
+            {
+                var command = new UpdateCustomerCommand() { customer = customer };
+                var result = await _mediator.Send(command);
+                if (result)
+                {
+                    TempData["changed"] = "Kunden är uppdaterad";
+                    return View(customer);
+                }
+            }
+            return View(customer);
+         }
     }
 }
