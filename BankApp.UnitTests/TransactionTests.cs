@@ -94,7 +94,7 @@ namespace BankApp.UnitTests
         {
             var account = new Account() { AccountId = 1, Balance = 10000 };
             var command = new AddInterestCommand() { AccountId = accountid, 
-                            YearlyInterest = yearlyint, LatestInterest = DateTime.Now.AddYears(-1)};
+                            YearlyInterest = yearlyint, LatestInterest = DateTime.Now};
 
             var options = new DbContextOptionsBuilder<BankAppDataContext>()
             .UseInMemoryDatabase(databaseName: "AddInterest_Tests")
@@ -107,14 +107,16 @@ namespace BankApp.UnitTests
                 context.Add(new Account() { AccountId = 1, Balance = 10000 });
                 context.SaveChanges();
                 var machine = new MachineDateTime() {};
+                machine.Now = machine.Now.AddDays(30);
                 var handler = new AddInterestCommandHandler(context, machine);
 
-                expected = account.Balance + (account.Balance * yearlyint);
+                expected = 10039.73m;
 
                 await handler.Handle(command, CancellationToken.None);
 
                 var newbalance = await context.Accounts.SingleOrDefaultAsync(a => a.AccountId == 1);
-                Assert.Equal(expected, newbalance.Balance);
+                var test = Math.Round(newbalance.Balance, 2);
+                Assert.Equal(expected, test);
             }
 
         }

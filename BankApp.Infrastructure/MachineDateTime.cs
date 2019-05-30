@@ -7,7 +7,9 @@ namespace BankApp.Infrastructure
 {
     public class MachineDateTime : IDateTime
     {
-        public DateTime Now => DateTime.Now;
+        public DateTime Now { get; set; } = DateTime.Now;
+
+
         public int CurrentYear => DateTime.Now.Year;
     }
 }

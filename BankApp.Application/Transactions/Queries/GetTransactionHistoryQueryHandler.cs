@@ -20,15 +20,12 @@ namespace BankApp.Application.Transactions.Queries
 
         public async Task<TransactionHistoryViewModel> Handle(GetTransactionHistoryQuery request, CancellationToken cancellationToken)
         {
-            var account = _context.Accounts.Include(a => a.Transactions).Single(a => a.AccountId == request.Id);
-            account.Transactions = account.Transactions.OrderByDescending(t => t.Date)
-                .ThenByDescending(t => t.TransactionId).ToList();
-
-            bool ismore = account.Transactions.Count > request.Pagenr * 20 ? true : false;
-
-            account.Transactions = account.Transactions.Skip(20 * (request.Pagenr -1)).Take(20).ToList();
-
-            return new TransactionHistoryViewModel(account, ismore, request.Pagenr);
+            var transactions = _context.Transactions.Where(t => t.AccountId == request.Id).OrderByDescending(t => t.TransactionId);
+            bool ismore = await transactions.CountAsync() > request.Pagenr * 20 ? true : false;
+           
+            var account = _context.Accounts.SingleOrDefault(a => a.AccountId == request.Id);
+            account.Transactions = transactions.Skip(20 * (request.Pagenr - 1)).Take(20).ToList();
+            return new TransactionHistoryViewModel(account , ismore, request.Pagenr);
         }
     }
 }

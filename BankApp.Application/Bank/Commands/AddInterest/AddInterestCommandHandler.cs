@@ -27,11 +27,12 @@ namespace BankApp.Application.Bank.Commands.AddInterest
             if (account == null) return false;
             if (request.YearlyInterest < 0) return false;
 
-            //decimal dailyinterest = request.YearlyInterest / 365;
-            //var days = (_datetime.Now.Date - request.LatestInterest).TotalDays;
-            //var interest = (dailyinterest * (decimal)days) * account.Balance;
+            decimal dailyinterest = (account.Balance * request.YearlyInterest) / 365;
+            var days = (_datetime.Now.Date - request.LatestInterest).Days;
+            var interest = (dailyinterest * days);
 
-            var interest = account.Balance * request.YearlyInterest;
+            Math.Round(interest, 2);
+            //var interest = account.Balance * request.YearlyInterest;
 
             var transaction = new Transaction()
             {
@@ -44,6 +45,7 @@ namespace BankApp.Application.Bank.Commands.AddInterest
             };
 
             account.Balance += interest;
+            _context.Accounts.Update(account);
             await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync(cancellationToken);
             return true;
